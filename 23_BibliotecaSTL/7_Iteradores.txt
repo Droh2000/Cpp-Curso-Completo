@@ -1,0 +1,67 @@
+
+
+                    Iteradores
+
+Entender el concepto del iterador es la clave para comprender enteramente la estructura
+de la STL y hacer una mejor utilizacion de ella. Los algoritmo genericos de esta 
+biblioteca estan escritos en terminos de iteradores como parametros y los contenedores 
+proveen iteradores para que sean utilizados por algoritmos. Estos componentes genericos 
+estan diseñados para trabajar en conjunto y asi producir un resultado optimo.
+(Juntando los contenedores y los iteradores se logran crear algoritmos)
+
+Teniendo solo un contenedor no podemos hacer nada mas que almacenar datos en el por lo cual
+nos hace falta hacer algo para recorrer el contenedor, ahi es donde entran los contenedores 
+para poder recorrer las diferentes posiciones del contenedor y usar los datos que tenga
+
+Un iterador es un objeto que abstrae el proceso de moverse a traves de una secuencia, el mismo
+permite seleccionar cada elemento de un contenedor encapsulando la estructura interna de ese
+contenedor. Esto permite crear algoritmos genericos que funcionen con cualquier contenedor 
+utilizando operaciones comunes como ++ o -- o *(Tomar el elemento de la posicion).
+
+Ya hemos visto el empleo de iteradores con el contenedor List. La sintaxis general para crear
+un objeto iterador es la siguiente:
+
+    TipoContenedor<TipoDato>::iterator nombre; (Del mismo tipo de dato se crea el iterador)
+
+    Por ejemplo:
+        deque<double>::iterator p;
+    
+Clasificacion:
+
+Dependiendo del contenedor que estemos utilizando, el iterador va a funcionar de una manera diferente
+
+Los algoritmos genericos se construyen empleado iteradores que realizan dsitintas
+operaciones con ellos, sin embargo no todos los iteradores pueden soportar todas las
+operaciones posibles. Entonces la clasificacion que surge aqui es por la forma en que 
+un iterador puede moverse a traves de un contenedor
+
+    - Forward Iterators: Iteradores que pueden avanzar el elemento siguiente (Solo hacia el siguiente No retorceder)
+    - Bidirectional Iterators: Pueden avanzar al elemento siguiente o retroceder al anterior
+    - Random Acces Iteratos: Pueden avanzar o retroceder mas de una posicion de una vez (Ir a una posicion aletoria del contenedor)
+
+Estas formas dependen del tipo de contenedor donde se este aplicando el iterador
+
+Esto es todo lo que podemos hacer con los iteradores:
+    [Esto es de los Forward Iterators]
+    - ==
+    - !=
+    - * (Seleccionar el elemento que esta adentro)
+    - ++ 
+        Por ejemplo de este tipo son los iteradores de archivos de textos
+    [Bidirectional Iterators -> Retorcede pero tambien las anteriores de arriba]
+    - --
+        Por ejemplo las listas doblemente enlazadas
+    [Random Acces Iterators -> Con estos podemos hacer las operaciones de abajo y arriba]
+    - +=
+    - -=
+    - +
+    - -
+    - <
+    - >
+    - <=
+    - >=
+        Por ejemplo el vector o el Deque
+
+
+
+

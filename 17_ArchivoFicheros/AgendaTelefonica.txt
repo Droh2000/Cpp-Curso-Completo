@@ -1,0 +1,13 @@
+	Agenda Telefonica
+
+Nombre: 
+Apellido: Lopez
+Telefono: 12345
+
+Nombre: 
+Apellido: perez
+Telefono: 546848
+
+Nombre: luis
+Apellido: lope
+Telefono: 2654

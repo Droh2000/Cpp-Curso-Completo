@@ -1,0 +1,79 @@
+
+                    Busquedad Binaria
+
+Esta sera una busquedad binaria recursiva y utilizando la tecnica divide y venceras
+
+La busquedad binaria consiste en localizar un dato especifico dentro de una lista o arreglo ordenado
+de N elememtos, el algoritmo de busquedad binaria se puede descubrir recursivamente aplicando la 
+tecnica de divide y venceras.
+
+Supongamos que tenemos un arreglo ordenado a[] con un limite inferior y un limite superior. Dado un 
+dato (valor a buscar) la buquedad comienza en la posicion central de la lista
+
+    GRAFICO de como tendriamos el arreglo divido:
+
+            |---------------|--------------|
+        Inferior          Mitad          Superiro
+    
+    El inferior seria el valor con el que comienzan los arreglos (0) y el superior seria N-1, 
+    ademas la mitad seria el indice central de los elementos del arreglo
+
+    Si le damos un dato a esta busquedad binaria pues la busquedad siempre va a comenzar desde
+    la mitad del arreglo.
+
+    Para sacar la mitad del arreglo: mitad = (inferior + superior) / 2
+
+    Ademas vamos a comprar si el elemento que esta en la mitad del arreglo es igual al dato que estamos buscando
+    asi sabemos si ya encontramos el dato
+
+Si se encuentra el dato que se esta buscando, se ha alcanzado la condicion de terminacion que permite detener la 
+busquedad y devolver el indice central. Si no se produce la coincidencia, dado que la lista esta ordenada, se centra
+la busquedad en la "Sublista inferior" (A la izquierda de la posicion central) o en la "Sublista superior" (A la derecha
+de la posicion central) (Eso nos damos cuenta por una condicion que si el dato a buscar es mayor al elemento de la mitad
+entonces buscamos por la parte derecha, sino por la parte izquierda), el problema de la busquedad se ha dividido justamente 
+en la mitad (Aqui ya aplica la tecnica de divide y venceras donde ya no se busca en todo el arreglo sino comprobando para saber
+por alguna de las dos mitades), cada vez el tamño de la secuencia donde buscar se reduce a la mitad, asi hasta que se encuentra 
+el elemento o bien la lista resultante este vacia (Lo que pasa es que se busca por la mitad de la mitad y asi seguir sacando la 
+mitad hasta que encontremos elemento o la lista se nos acabe)
+
+En Resumen:
+    Si el elemento que estamos buscando no sea el que este en el medio o mitad del arreglo tenemos dos casos:
+        - Si dato < a[mita] (Dato es menor el elemento que esta en la mitad del arrego) pues el valor buscado solo puede estar 
+          en la mitad izquierda de a[] con elementos en el rango desde inferior a mitad-1 (Parte izquierda del arreglo)
+          
+          Esto significa que tendremos que hacer una busquedad en la sublista izquierda (El problema ya queda dividido) desde el limite
+          inferior hasta la mitad-1
+
+        -  Si dato > a[mitad] el valor buscado solo puede estar en la mitad superior de a[] con elementos en el rango de
+           la mitad+1 a superior (Buscamos por la parte derecha del arreglo osea sublista derecha)
+
+    Estos casos son siempre y cuando el elemento este en el arreglo porque tambien esta el caso cuando el elementos no exista en el arreglo
+
+    La busquedad continua en sublistas mas y mas pequeñas, exactamente en la mitad, con dos llamadas recursivas, una se corresponde
+    con la sublista inferior y la otra con la sublista superior. El algoritmo termina o con exito (Aparece el dato buscado) o sin exito
+    (No aparece el dato buscado), esta situacion ocurrira cuando el limite superior de la lista sea mas pequeño que el limite inferior. 
+    Es decir cuando la condicion inferior > superior es la condicion de salida o terminacion sin exito y el algoritmo devuele -1.
+
+
+    Algoritmo Recursivo de la Busquedad Binaria
+            // Parametros: Arreglo, Dato a Buscar, Limite inferior, Limite superior
+            int busquedadBinaria(int a[], int dato, int inferior, int superior){
+                int mitad; // Sacar la mitad del arreglo
+                // Condicion cuando no encontremos el elemento
+                if(inferior > superior){ // Esto NO es el caso Base, es un caso de termino sin exito
+                    return -1;
+                }else{
+                    // Obtenemos la mitad
+                    mitad = (inferior+superior)/2;
+                    // Comprobamos si el elemento esta en la pocicion de la mitad
+                    if(dato == a[mitad]){ // Caso Base
+                        return mitad;
+                    }else if(dato > a[mitad]){
+                        // Buscamos solo por la derecha entre los limites de la mitad+1 hasta superior
+                        return busquedadBinaria(a, dato, mitad+1, superior);
+                    }else{
+                        // Buscamos por la parte Izquierda
+                        return busquedadBinaria(a, dato, inferior, mitad-1);
+                    }
+                }
+            }

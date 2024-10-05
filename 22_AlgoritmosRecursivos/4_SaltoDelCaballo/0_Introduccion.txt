@@ -1,0 +1,104 @@
+
+
+                    Problema Del Salto Del Caballo
+        
+En un tablero de ajedrez de NxN casillas, se tiene un caballo situado en la posicion inicial de coordenadas
+(X0, Y0). El problema consiste en encontrar si existe, un camino que permita al caballo pasar exactamente
+una vez por cada una de las casillas de tablero, teniendo en cuenta los movimientos (Saltos) permitidos a un
+caballo de ajedrez
+
+Un tablero de ajedrez es un cuadro 8x8 (64 casillas), esto se puede representar como una matriz con sus filas
+y sus columnas, entonces damos un punto inicial (Una fila inicial y una columna inicial) donde va a estar
+situado el caballo (El cual solo se puede mover en "L"), ahora hay que movernos dependiendo de la posicion inicial
+hasta poder recorrer todas las casillas del tablero (Una sola vez, no se pueden repetir casillas)
+
+Este es un ejemplo clasico de problema que se reseulve con el esquema del algoritmo de vuelta atras. El problema
+consiste en buscar la secuencia de saltos que tiene que dar el caballo, partiendo de una casilla cualquiera para 
+pasar por cada una de las casillas del tablero. Se da por supuesto que el tablero esta vacio, no hay figuras excepto
+el cabalo, lo primero que hay que tener en cuenta es que el caballo, desde una casilla puede realizar hasta 8 movimientos
+(El caballo estando en una casilla puede tener hasta 8 posibles movimientos diferentes)
+
+Suongamos que el caballo esta en el medio del tablero en las coordenadas (0,0), entonces los
+movimientos posibles son:
+    - (2, 1) porque suma 2 en X y 1 en Y
+    - (1, 2)
+    - (-1, 2)
+    - (-2, 1)
+    - (-2, -1)
+    - (-1 ,-2)
+    - (1, -2)
+    - (2, -1)
+Y asi debe continuar hasta pasar por todas las casillas o se de cuenta que no es posible realizar la tarea
+
+Los ocho posibles movimientos del caballo se obtienen sumando a la posicion actual de este osea (X,Y), los desplazamientos
+relativos son como los listamos arriba. Pero por ejemplo: 
+Suponiendo que el caballo se encuentra en la casilla (3,5) los posibles movimientos que puede realizar:
+{(5,6), (4,7), (2,7), (1,6), (1,4), (2,3), (4,3), (5,4)}
+
+Tambien hay que tener en cuenta que no siempre se podran realizar los 8 movimientos, se debe comprobar que la casilla
+destino este dentro del tablero y tambien que no haya pasado previmente el caballo por esa casilla. En caso de ser posible
+el movimiento se anota, guardando el numero del salto realizado
+(En ciertos momentos el caballo puede estar en las esquinas del tablero o en las orillas y ahi no esta disponible hacer los
+8 movimientos, en ese caso solo se hacen los movimientos disponibles del tablero porque no nos podemos salir de los limites
+del tablero)
+
+La condicion que determina que el problema se ha resuelto esta ligada con el objetivo que se persigue y en este problema es 
+que se haya pasado por las N^2 casillas, en definitiva que el caballo haya realizado N^2-1 (63) saltos
+(Un tablero 8x8 tiene 64 casillas, la primera casilla marcada sera la pocicion inicial del caballo de modo que quitando esa nos
+quedan 63 casillas por eso es menos 1 en (n^2 -1))
+
+¿Que ocurre si se agotan los ocho posibles movimientos sin alcanzar la solucion?
+Se vuelve al movimiento anterior, vuelta atras, se borra la anotacion para ensayar con el siguiente movimiento
+(Si llegamos a un lugar del tablero donde no podemos movernos entonces nos regresamos un movimiento anterior, entoces tenemos 
+que compltar todo el tablero solo utilizando los movimientos que tiene el caballo disponibles, pero en ocaciones no se podra 
+recorrer completo segun la casilla inicial donde empezemos)
+
+ALGORITMO
+            // Le pasamos 
+            // i -> Contador de movimientos que vamos a ir apuntando en la matriz para saber de donde a donde nos movemos y en donde vamos
+            // X y Y -> Son las coordenadas que representan el numero de filas y columnas donde comenzara el caballo
+            // exito -> Cuando sea verdadero significa que ya completamos las 63 casillas del tablero, con Falso significa que no hemos completado
+            //          es de tipo booleana porque al ser una funcion recursiva con esta nos damos cuenta cuando termina y por referencia para que el valor afecte a todo
+            void saltoCaballo(int i, int x, int y, bool &exito){
+                int nx, ny; // Estas seran las pocicion a la cual se va a mover el caballo en el tablero
+                int k = 0; // Inicializar el contador de los 8 posibles movimientos
+                exito = false;
+
+                do{
+                    k++;
+                    // Cambiamos la posicion del caballo
+                    // La inicial es X e Y, pero de ahi lo movemos sumandole de "d[]" que sera la matriz de los movimientos y "k" es el iterador que controla la matriz
+                    // el "-1" es porque al inicio pusimos k++ y con esto lo dejamos que comienze en 0 porque asi lo requerimos, este "k++" lo podemos poner al final de todo pero aqui se puso arriba porque se nos dio la gana
+                    nx = x + d[k-1][0]
+                    ny = y + d[k-1][1] // Asi obtenemos dependiendo de la posicion inicial del caballo sacamos la siguiente posicion a donde el caballo se mueve
+
+                    // Determinar si nuevas coordenadas son aceptable
+                    // Asi es como no nos salimos de los limites del tablero y con esto comprobamos si las nuevas coordenadas son aceptables
+                    // Primero conrolamos la coordenada X (Filas) y despues la Y (Columnas) y ademas que la nuevo coordenada no haya sido visitada antes "tablero[nx][ny] == 0"
+                    if(nx>=0 && nx<N && ny>=0 && ny<N && tablero[nx][ny]==0){
+                        // Anotamos el movimiento
+                        // En la coordenada ponemos "i" que es el contador de movimientos del tablero
+                        tablero[nx][ny] = i;
+                        // Funcion para mostrar el tablero (Matriz)
+                        escribeTablero();
+
+                        // Comprobamos si aun no hemos terminado de recorrer todo el tablero
+                        if(i < N*N){ // N es el numero de casillas que tienen el tablero
+                            // Volvemos a llamar a la funcion
+                            saltoCaballo(i+1,nx,ny,exito); // Aqui aumentamos el numero de moviemientos (i+1), le pasamos las nuevas coordenadas y la exito
+
+                            if(!exito){
+                                // No se alcanzo la solucion se borra anotacion
+                                // Esto quiere decir que el movimento que acabamos de hacer no dio un buen resultado asi que nesesitamos regresarnos y hacer otro movimiento
+                                tablero[nx][ny] = 0
+                            }else{
+                                // Ya hemos terminado de recorrer todo el tablero 
+                                exito = true;
+                            }
+                        }
+
+                    }
+                // Esto se repite mientras sea menor a 8 movimientos y exito sea siendo falso
+                }while(k < 8 && !exito); // Mientras no hayamso agotado la cantidad de movientos y no hayamos terminado de rellenar todo el tablero entonces seguimos
+
+            }

@@ -1,0 +1,102 @@
+
+
+            Biblioteca Estandar de Plantillas (STL)
+
+Habiamos visto que programar todas las estructuras de datos (Pilas, Colas, Listas) es algo tedioso
+el algoritmo pero gracias a la bilioteca estandar de plantillas vamos a poder tener y utilizar estas
+estructuras mas sencillo (Utilizando Bibliotecas), estas bilbiotecas tienen funciones (Plantillas) 
+con las cuales vamos a poder hacer nuestros programas mas rapido
+
+¿Que es la STL?
+
+La STL(del ingles Standard Template Library) es una bilbioteca de clases y funciones templates 
+(Con template quiere decir que podemos utilizar con diferentes tipos de datos) creada para 
+estandarizar y optimizar la utilizacion de algoritmos y estructuras de datos en el desarrollo de
+software C++ (Nos hace la vida mas facil a los programadores en C++)
+
+La adopcion de esta biblioteca posee grandes ventajas al ser estandar esta disponible en todos 
+los compiladores y plataformas, esta libre de errores por lo tanto se ahorrara tiempo en depurar
+el codigo, proporcionando su propio gestion de memoria
+(Practicamente se llama a un metodo que dentro ya tiene toda la logica implementado y sola ya nos
+ejecuta la accion)
+
+La biblioteca presenta tres components basicos: Contenedores, Iteradores y Algoritmos
+
+Los CONTENEDORES: Son los objetos capaces de almacenar otros objetos, cada uno de una forma particular.
+Representan las estructuras de datos usuales, como los arreglos lineales o las listas enlazadas, ademas
+estos presentan otras caracteristicas adicionales que los hacen mas potentes que son Dinamicos y Templates
+(Tambien son las Pilas, Colas y ademas son mucho mas facil de implementar)
+
+Los ITERADORES: Son objetos a traves de los cuales se pueden acceder a los elementos del contenedor.
+El concepto de iterador es similar al de un puntero, solo que al ser una clase provee mayores utilidades
+que este (Trabajan de la mano con los contenedores y solo se seleccionan las posiciones de memoria donde
+estan almacenados nuestros elementos del contenedor, pero como es una clase sacariamos objetos iteradores,
+y los objetos tienen metodos, con esto accedemos a las diferentes acciones a realizar)
+
+Pero la gran utilidad de los iteradores ocurre cuando son utilizados por los algoritmo. En la biblioteca 
+existen mas de setenta algoritmos para aplicar sobre los contenedores a traves de los iteradores. Hay
+algoritmos de busquedad, de ordenamiento, de transformacion, matematicos, etc.
+
+
+Contenedores
+
+Son una coleccion de las estructuras de datos mas populares utilizadas habitualmente, un contenedor es
+justamente eso: un lugar en donde almacenamos o agrupamos objetos del mismo tipo
+
+La diferencia entre un contenedor y otro esta en la forma en que los objetos son alojados, en como se
+crea la secuencia de elementos y la manera en que los podra acceder a cada uno de ellos
+
+Estos pueden estar almacenados en forma contigua en la memoria (Arreglo) o enlazados a traves de punteros
+(Listas), esto hace que las estructuras difieran tambien en la forma en que se accede a los elementos,
+la velocidad con la cual se insertan o se eliminan estos y en la eficiencia de los algoritmos que se
+apliquen a ellas.
+
+Como se vera luego, cada una de las diferentes estructuras de datos que implementan los contenedores tienen
+proposito particular. Estos diferentes diseños de almacenamiento de datos tienen ventajas y desventajas
+lo cual produce que algunos contenedores sean mas adecuados que otros para la resolucion de un problema en
+particular
+
+Clasificacion de Contenedores
+
+    - Lineales (Mas sencillos)
+        * List
+        * Vector
+        * Deque
+    - Asociativos:
+        * Map (Lista ordenada de pares asociados en Clave - Valor)
+                Cada elemento de pares debe de ser unico
+        * Set (Lista ordenada de objetos individuales pero que estan ordneados 
+                y son unicos)
+        (Estos dos de abajo es lo mismo que su correspondiente de arriba pero que si
+            permiten tener objetos duplicados)
+        * MultiMap 
+        * MultiSet
+
+Operaciones Comunes
+
+Antes de realizar cualquier operacion en un contenedor hay que crearlo. La sintaxis utilizada para
+esto es la siguiente:
+    #include<NumbreContenedor> -> Se importa la libreria
+    
+    X<T> nombreInstancia -> X es el tipo de contenedor, T es el tipo de dato que se almacenara en la estructura
+                            esta definicion son como las plantillas
+        Ejemplo:
+            vector<int> valores;
+    
+    Operaciones: 
+        X::size()       -> Devuelve la cantidad de elementos que tiene el contenedor hasta el momento
+        X::max_size()   -> Devuelve el tamaño maximo que puede alcanzar el contenedor antes de requerir mas memoria
+                            (Recordemos que estos contenedores son dinamicos)
+        X::empty()      -> Retorna verdadero si el contenedor no tiene elementos
+        X::swap(T &a)   -> Intercambia el contenido del contenedor con el que se recibe como parametro
+        X::clear()      -> Elimina todos los elementos del contenedor
+        
+        Operaciones de comparacion:
+            v == w  v != w  |  v < w  v > w  |  v <= w   v >= w
+
+            Supongase que existen dos contenedores del mismo tipo: v y w, Todas las comparaciones
+            se hacen lexicograficamente y retorna un valor booleano
+    
+    Estas son las operaciones pertenecen a todos los contenedores vistos, tanto lineales como asociativos 
+    pero si hay que tener en cuenta que tanto uno como otro van a tener sus propios metodos igualmente, Los
+    que vimos aqui son los que comparten todos los contenedores

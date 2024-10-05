@@ -1,0 +1,106 @@
+
+La recursividad (Recursion) es aquella propiedad que posee una funcion por la cual puede llamarse
+a si misma. Aunque la recursividad se puede utilizar como una alternativa a la iteracion, 
+una solucion recursiva es normalmente menos eficiente, en terminos de tiempo de computadora
+que una solucion iterativa, debido a las operaciones auxiliares que llevan consigo las invocaciones
+suplementarias a las funciones. Anteriormente la habiamos vista en el tema de las funciones pero
+para problemas sencillos que igualmente se podian resolver usando bucles.
+
+Sin embargo, en muchas circunstancias el uso de la recursion permite a los programadores especificar
+soluciones naturales sencillas, que serian en caso contrario dificiles de resolver. Por esta causa
+la recursion es una herramienta poderosa e importante en la resolucion de problemas y en la 
+programacion. Diversas tecnicas algoritmicas utilizan la recursion como lo son los algoritmos de 
+divide y venceras y los algoritmos de vuelta algoritmicas
+
+En problemas sencillos es mejor utilizar la iteracion pero en ciertos problemas mas avanzados como 
+los dos mencionados es necesario utilizar la recursividad porque no hay otra opcion.
+
+                            La Naturaleza De La Recursividad
+
+Una funcion recursiva es aquella que se llama a si misma, bien directamente o indirectamente a travez
+de una funcion (No solo se aplica llamar a la misma funcion dentro de si misma sino que tambien se pueden
+llamar a otras funciones). La recursividad es un topico importante examinado frecuentemente en cursos donde 
+se trata la resolucion de algoritmos y en cursos relativos de Estrcuturas de Datos
+
+Ademas una funcion que tiene sentencias entre las que se encuentra al menos una que llama a la propia 
+funcion se dice que es recursiva (Se la misma funcion u otra funcion llamandose varias veses). 
+Asi la organizacion recursiva de una funcion "funcion1()" seria lo siguiente:
+
+        void funcion1(){
+            Codigo...
+        	funcion1(); // llamada Recursiva (Esto seria Recursividad Directa)
+            Codigo...
+        }
+
+                            Ejemplos de como Funciona la Recursividad
+
+    1. Planteamiento recursivo de la funcion matematica que suma los N primeros numeros
+       enteros positivos
+
+       Como punto de partida se puede afirmar que para n = 1 se tiene la suma S(1) = 1.
+       Para n = 2 se puede escribir S(2) = S(1) + 2; en general y aplicando la induccion
+       matematica se tiene:
+
+         S(n) = S(n-1) + n -> Suma recursiiva de los primeros N numeros enteros pues tenemos que
+                              pasar cuantos elementos queremos sumar y eso seria igual al numero 
+                              mas la suma de los elementos de n-1
+    
+       El algoritmo que determina la suma de modo recursivo ha de tener presente un caso base y un caso
+       recursivo. (El caso base es cuando va a Terminar para que no sea infinito, en este caso seria cuando
+       n=1 y el caso recursivo es cuando n > 1, aqui se sumaria el mismo numero mas la suma de todos los
+       elementos anteriores). Asi, en el caso del calculo de S(6), la definicion es S(6) = 6 + S(5), que 
+       de acuerdo a la definicion es 5 + S(4), este proceso continua hasta S(1) = 1 por definicion.
+
+       En consecuencia la implementacion del algoritmo mencionado que calcula la suma de los N primeros enteros:
+
+            long sumaNenteros(int n){  // Le pasamos el numeros de elementos que queremos sumar
+                if(n == 1){            // Prmero es nuestros caso base
+                    return 1;
+                }else{                 // El caso contrario es si n es mayor de uno
+                    return n + sumaNenteros(n-1); // Tomando el ejemplo seria: 6 + S(5) -> 5 + S(4) -> ... -> Hasta llegar a al caso base
+                }
+            }
+
+       Si nos fijamos aqui tendremos que estar llamando al funcion a cada rato entonces hay poca eficiencia
+       comparado si solo ponemos una iteracion, con esto la eficiencia seria exponencial siendo O^n
+
+    2. Definir la naturaleza recursiva de la serie Fibonacci: 0 1 1 2 3 5 8 13 21
+
+        Se observa que en esta serie que comienza con 0 y 1, y admeas tiene la propiedad de que cada
+        elemento es la suma de los dos elementos anteriores por ejemplo:
+            0 + 1 = 1 -> 1 + 1 = 2 -> 2 + 1 = 3 -> 3 + 2 = 5 -> 5 + 3 = 8  
+        
+        Entonces se puede establecer lo siguiente:
+            - fibonacci(0) = 0
+            - fibonacci(1) = 1
+            - ...
+            - fibonacci(n) = fibonacci(n-1) + fibonacci(n-2) -> Suma de los dos nuemros anteriores
+        
+        La definicion recursiva de estos seria lo siguiente:
+            - fibonacci(n) = n                                  si n = 0 o n = 1  -> Caso Base
+            - fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)    si n >= 2         -> Caso Recursivo
+
+        Por Ejemplo:
+            Si queremos sacar el termino que ocupa la pocicion numero 6 de la serie fibonacci
+                - fibonacci(6) = fibonacci(5) + fibonacci(4) -> Seria sacar el numero que ocupa la pocicion 5 y la pocicion 4 y sumamos
+
+            En este algoritmo recursivo ya se llama dos veses a la funcion, entonces ya es menos eficiente que el ejemplo anterior
+        
+        En consecuencia la implementacion del algoritmo mencionado de la serie de finaccio es:
+
+                long fibonacci(int n){
+                    if(n == 0 || n == 1){
+                        return n;
+                    }else{
+                        return fibonacci(n-1) + fibonacci(n-2)
+                    }
+                }
+
+            Este algoritmo se meteria dentro de un bucle
+
+
+
+
+
+
+

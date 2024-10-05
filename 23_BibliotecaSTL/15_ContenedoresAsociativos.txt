@@ -1,0 +1,37 @@
+
+
+                Contenedores Asociativos
+
+Hasta el momento se explico la estructura general de la STL con los contenedores lineales,
+los iteradores y los algoritmos. Con esta idea general se retoma la descripcion de los contenedores
+faltantes, los asociativos, Estos contenedores son: SET, MultiSet, MAP, MultiMAP
+
+La diferencia que tienen con los contenedores lineales:
+
+Su estructura en memoria no es secuencial como en los contenedores anteriores sino que se implementan
+como arboles binarios de busquedad balanceados. (Los lineales se almacenan en posiciones contiguas de memoria)
+(No tenemos que programar un arbol ni nada, solo llamar una funcion y ya, ademas cuando insertamos un elementos
+solo se ordena sin que hagamos nada extra) 
+Esto hace que el tiempo de busquedad sea proporcional
+al logaritmo en base dos de la cantidad de elementos, en vez de ser proporcional al tamaño del contenedor
+como es el caso de las listas lineales.
+(Para lo que tiene que ver con busquedas, cambios de elementos o eliminacion, estos contenedores son mas eficientes)
+
+Los contenedores asociativos proveen para su manipulacion iteradores bidireccionales al igual que las listas
+doblemente enlazadas (Estos iteradores son los que pueden avanzar elemento por elementos hacia adelante o hacia atras), 
+por lo tanto solo se podran utilizar aquellos algoritmos que requieran de estos iteradores (Las funciones que tenemos y 
+algoritmos para los contenedores asociativos es mucho menor que con la lineales) sin embargo estos contenedroes proveen
+algunos metodos para las funcion de busquedad y conteo los cuales se explican a continuacion
+(Entonces estos contenedores asociativos nos sirve para mantener ordenados los elementos, conforme se insertan se ordenan
+en forma de arboles binarios, lo cual nos garantiza la busquedad o el conteo mucho mas rapido)
+
+Funciones y Algoritmos 
+
+    - A::insert(clave &x) -> Insertar el elemento X en el contenedor
+    - A::insert(A::iterator i, A::iterator f) -> Inserta los elementos que estan en el rango de los iteradores en el contenedor
+    - A::erase(clave &x) -> Borra todos los elementos que tengan la clave X
+    - A::erase(A::iterator p) -> Borra el elemento apuntado por p
+    - A::count(clave &x) -> Devuelve la cantidad de elementos que tiene la clave x (Cauntas veses esta en el contenedor el dato)
+    - A::find(clave &x) -> Devuelve un iterador al primer elemento que tenga la clave X
+    - A::lower_bound(clave &x) -> Devuelve un iteradro al primer elemento que tenga la clave X
+    - A::upper_bound(clave &x) -> Devuelve un iterador al elemento siguiente del ultimo elemento con clave X

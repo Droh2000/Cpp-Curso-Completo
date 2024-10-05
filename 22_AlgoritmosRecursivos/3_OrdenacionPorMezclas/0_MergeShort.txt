@@ -1,0 +1,152 @@
+
+                    Ordenacion por Mezclas -- MergeSort
+
+La idea basica de este algoritmo de ordenacion es la mezcla (merge) de listas ya ordenadas 
+(De lo que se trata es hacer una serie de mezclas hasta que se ordene el arreglo). El algoritmo
+sigue la tipica estrategia de "Divide y Venceras". Cada paso se basa en dividir el problema de 
+ordenar N elementos en dos subproblemas mas pequeños, de tamaño mitad, de tal forma que una vez
+ordenada cada mitad se mezclan para asi resolver el problema original (Tenemos un arreglo de N 
+elementos lo vamos a ir partiendo por la mitad de tal manera que al ir partiendo bastantes veses
+por la mitad llegaremos a un punto base, donde cada elemento estara en solitario y despues cada 
+elemento se mezclaran ordenandolos hasta tener el arreglo totalmente ordenado en forma ascendente
+o desdendente)
+
+Ejemplo
+    Seguir la estrategia del algoritmo MergeSort para ordenar la siguiente lista:
+
+        Tenemos el siguiente Arreglo: 9 - 1 - 3 - 5 - 10 - 4 - 6 (Contiene 7 elementos)
+            - Primero debemos de sacar el primer (0) y ultimo indice (6)
+            - Con los indices sacamos el cantro (0+6)/2 = 3 
+            - Hasta donde llegemos al centro empezando en la primera pocicion sera la primera mitas:
+                        9 - 1 - 3 - 5
+            - Los elementos que nos sobran los dejamos ahi: 10 - 4 - 6
+            - Esto es recursivo haci que seguimos diviendo el arreglo:
+                        9 - 1  y  3 - 5        10 - 4  y  6 
+            - Seguimos partiendo obteniendo numeros individuales:
+                        9  1  3   5  10  4  (el 6 ya estaba individual anteriormente)
+            - Con esto ya tenemos el Caso Base (Cuando tenemos un arreglo de un solo elemento)
+            - Volvemos a juntar pero mezclando los arreglos de tal forma que esten ordenados, hay que
+                recordar la forma en la que se han dividido por mitad y los numeros tomados porque asi sera
+                igual en ese mismo orden como se mezclan
+        Teniendo los elementos separados:
+                [9] [1]   [3] [5]      [10] [4]   [6]
+            - Volvemos a mezclar comenzando con el 9 y 1 que estaban juntos, los volvemos a juntar pero
+                ya mezclandolos ordenados: [1 , 9]
+            - El 3 y 5 estaban juntos, los volvemos a mezclar pero ordenados: [3, 5]
+            - El 10 y 4: [4, 10]
+            - El 6 se queda solo: [6]
+        Volvemos a juntar los elementos tal como los separamos y los ordenamos:
+            - [1, 3, 5, 9] -> Juntamos el [1, 9] y [3, 5]
+            - [4, 6, 10] -> Juntamos los bloques [4, 10] y [6]
+        Ahora solo mezclamos estos dos bloques finales y los ordenamos:
+            - [1, 3, 4, 5, 6, 9, 10]
+        
+Algoritmo de MergeShort
+
+    Este algoritmo de ordenacion se diseña facilmente con ayuda de las llamadas recursivas (porque
+    vamos partiendo por la mitad y cuando tenemos los valores individuales despues se juntan conforme
+    se dividieron), para dividir las listas en dos mitades; posteriormente se invoca la funcion de mezcla
+    de dos listas ordenadas (Externa al algoritmo para mezclar los elementos). La delimitacion de las dos 
+    listas se hace con tres indices: Primero, Central y Ultimo. Asi si se tiene una lista de 10 elementos
+    los valores de los indices son:
+        primero = 0;
+        ultimo = 9;
+        Central = (Primero + Ultimo)/2 = 4;
+    La primera sublista va a comprender los elementos desde a0,...,a4 (Tomamos desde el inicio hasta el centro)
+    y la segunda tendria los elementos siguientes: a4+1,...,a9 (Del centro mas 1 hasta el ultimo)
+
+El Codigo del MergeShort es:
+
+            void mergeShort(int a[], int primero, int ultimo){// Arreglo, IndicePrimero, IndiceUltimo
+                int central;
+                // Hasta donde vamos a llegar (Este condicional nos controla cuando lleguemos al caso base)
+                // El Caso Base seria cuando todos los elementos esten en solitarios (Eso significa que el primero == ultimo)
+                if(primero < ultimo){
+                    // Sacamos el central del arreglo
+                    central = (primero + ultimo)/2;
+                    // Consecutivamente se toma el arreglo y con el centro se divide el arrelgo en dos
+                    // Despues de dividirlo en dos tenemos que ordenar los dos subArreglos
+                    mergeShort(a, primero, central); // Ordenamos la primera mitad de la lista (Cambiando nuestros limites)
+                    // Para la otra mitad, volvemos a llamar la funcion pero empezando despues del centro hasta el final
+                    mergeShort(a, central+1, ultimo); // Ordenar la segunda mitad de la lista
+                    // Lo de arriba se repetira hasta que llegemos al case Base donde hay que regresar pero ordenando y juntando
+                    // en el mismo orden en que hemos dividido el arreglo, para eso esta la funcion Externa
+                    mezcla(a, primero, central, ultimo); // Fusionar las dos sublistas ordenadas delimitadas por los extremos
+                }
+            }
+
+Funcion Mezcla:
+
+   El algoritmo de mezcla utiliza un arreglo auxiliar, aux[] para realizar la mezcla entre dos sublistas ordenadas que se
+   encuentran en el vector a[], delimitadas por los indices Izquierda, Medio, Derecha. A partir de estos indices se pueden 
+   recorrer las sublistas con las variables: i, k. En cada pasada del algoritmo de meclas se compara a[i] con a[k], el menor
+   se copia en el vector auxiliar a[] y avanzan los indices de la sublista y del vector auxiliar.
+
+   Ejemplo:
+        Tomando en cuenta el ejemplo anterior en un punto teniamos dos sublistas como estas:
+                    [1, 9] y [3, 5] 
+        Esta es la sublista izquierda y la sublista derecha, lo que tenemos que hacer es mezclarlas y ordenarlas
+        Para la sublista izquierda [1, 9] usamos el iterador "i"
+        El indice "k" sera para la sublista derecha: [3, 5]
+        El "k" comienza desde la mitad+1 hasta el final y la "i" recorre desde el inicio hasta la mitad
+        Recordemos que este arreglo en ningun momento lo hemos dividido fisicamente, solo ficticiamente y nos vamos guiando por los iteradores
+        Vamos a ir comparando el "i" con el "k" y vamos a ver cual de los dos es el menor para ir metiendolo en el arreglo aux[]
+        El numero de elementos que va a tener el vector auxiliar es: (Derecha-Izquierda)+1
+        Este vector "aux" va a tener el indice "z" para movernos dentro comenzando en 0
+
+        Empezamos comparando:
+            i = 1  y k = 3  -> El menor es: 1 -> aux[1]
+          Avanzamos los indices "i" y "z":
+            i = 9  y k = 3  -> El menor es: 3 -> aux[1, 3]
+          Se avanza el indice de la sublista que hayamos copiado (En este caso el "k") y avanzamos "z"          
+            i = 9  y k = 5  -> El menor es: 5 -> aux[1, 3, 5]
+          Avanzamos "k" y "z", aqui ya hemos terminado con la sublista derecha, entonces es donde delimitamos "k" que
+            va a ser menor o igual que derecha que seria el utlimos, cuando llegue a ese punto terminamos de copiar el arregl a "aux"
+          Ahora lo que nos falta es copiar todos los elementos que nos quedaron en la sublista izquierda que seria el "9" y Avanzamos
+            los iteradores "i" y "z" quedandonos: aux[1, 3, 5, 9]
+        
+        Por ultimo este arreglo "Aux" lo copiamos dentro del arreglo "a" y asi ya estaria ordenado.
+    
+    Algoritmo:
+            // Se le pasa el arreglo, despues 3 limites que son como: Primero, Central y Ultimo que habiamos visto antes
+            void mezcla(int a[], int izquierda, int medio, int derecha){
+                int *aux; // Arreglo que nos guarda los elementos ordenados de forma dinamico
+                int i, k, z; // Indices
+                // Le decimos cuantos elementos tendra el aux
+                aux = new int(derecha-izquierda + 1)
+                // Inicializamos los iteradores segun donde les corresponda iniciar
+                i = z = izquierda; // Comienzan desde el inicio
+                k = medio+1; // Comienza despues del centro
+                // Primero es mezclar las dos sublistas e ir ordenandolas
+                // Estas condiciones son: Mientras no nos pasemos de los limites de la sublista izquierda y mientras no
+                // nos pasemos los limites de la sublista derecha (La sublista izquierda comienza desde "Izquierda" y va 
+                // a llegar hasta el medio) y el iterador "i" va a ser lo que va a recorrer esto
+                while(i <= medio && k <= derecha){ // Bucle para la mezcla, utiliza aux[] como arreglo auxiliar
+                    // Comparar ambas sublistas con sus elementos e ir metiendolos dentro de aux[]
+                    if(a[i] <= a[k]){ // Si elementos de sublista Izquierda es menor o igual al elementos de sublista derecha
+                        aux[z++] = a[i++]; // Copiamos en aux[] el elementos de la sublista izquierda aumento despues el iterador      
+                    }else{
+                        // Copiamos el elemento de la sublista derecha
+                        aux[z++] = a[k++];
+                    }// Esto seguira hasta que una de las dos sublistas se haya terminado de copiar                 
+                }// Cuando salga del bucle significa que hemos terminado de copiar una de las dos sublistas (Izquierda o Derecha) y
+                 // nuneca vamos a terminar de copiar las dos sublistas al mismo tiempo
+                 // Eso significa que quedaran elementos en alguna de las dos sublistas que no se han pasado a aux
+                // Mover los elementos que no hayan sido sacado de una de las sublistas    
+                 while(i <= medio){ // Siginifica que la sublista izquierda fue la que quedo pendiente
+                    aux[z++] = a[i++];
+                 }
+
+                 while(k <= derecha){ // Cuando la sublista derecha es la que le quedaron elementos
+                    aux[z++] = a[k++];
+                 }
+                // Aqui ya copiamos todos los elementos de las sublistas, mezclados y ordenados dentro del arreglo aux
+                // Ahora pasamos el arreglo aux al arreglo "a" que es el principal
+                for(int i=izquierda;i <= derecha; i++){
+                    a[i] = aux[i];
+                }
+
+                delete aux; // Liberamos la memoria
+            }
+
+        

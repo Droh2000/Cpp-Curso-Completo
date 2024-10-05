@@ -1,0 +1,36 @@
+
+
+                    Backtracking - Algoritmo de Vuelta Atras
+
+Se trata de una estrategia normalmente recursiva para resolver problemas como los de los laberintos,
+la colocacion de piezas y similares, en los que mediante una busquedad en profundidad se puede dar 
+con la solucion (Se trata de hacer una busquedad profunda y buscar diferentes soluciones o camino
+a un problema)
+
+El nombre Vuelta atras (Backtracking) viene del hecho de que en la busquedad de la solucion se va 
+volviendo a un punto anterior para probar alternativas, entonces se van a encontrar diferentes
+soluciones que ademas se van a ir probando y si no funcion, nos regresamos al paso anterior, asi
+seguimos con otra solucion, sino es la correcta nos regresamos al paso anterior, seguimos con otra
+solucion y asi hasta dar con la solucion correcta o hasta que se nos terminen las opciones
+
+Ejemplo:
+
+    Imaginemonos un laberinto: Al llegar a una encrucijada (A los puntos 1, 2, 3) se prueba con una direccion, si
+    con eso se llega a la solucion, problema resuleto. Si no, se vuelve atras a la encrucijada anterior
+    y se prueba con otra, repitiendo el proceso cuantas veceses sea necesario. (Si se agotan todas las
+    opciones y no se ha llegado, es que no existe solucion osea no hay salida)
+
+    Entonces probemos diferentes caminos:
+        - IN: Vamos al punto 1, nos vamos al punto 2, despues nos vamos 
+              a un punto donde no hay salida
+        - Nos regresamos al punto anteror (Al punto 2), de ahi nos vamos 
+              hacia la salida (Terminamos)
+
+Normalmente las combinaciones de este tipo de problemas son muchas, pero se aplican ciertas restricciones
+lo que suele hacer es que el total de opciones a probar es algo computable en un tiempo razonable. Tambien se puede
+buscar revisando todas, planteando obtener "Una solucion mejor" de este modo se puede llegar a la solucion optima
+
+Algunos ejemplo tipicos en los que se puede aplicar este metodo son los laberintos, el Sudoku, en el ajedrez con el
+problema del recorrido del caballo o el de las ocho damas. En terrenos mas practicos el problema de la mochila es uno
+de los ejemplo mas clasicos (El backtracking no es un algoritmo, es una tecnica y con ayuda de esta se pueden resolver
+una serie de problemas)

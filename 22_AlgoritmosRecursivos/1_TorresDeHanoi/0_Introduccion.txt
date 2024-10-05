@@ -1,0 +1,106 @@
+
+                Torres de Hanoi
+
+Este juego (Un algoritmo clasico) tiene sus origenes en la cultura oriental y en una leyenda sobre
+el templo Brahma cuya estructura simulaba una plataforma metalica con tres varillas y discos en su
+interior.
+
+El problema en cuestion suponia la existencia de tres varillas (A, B y C) o postes en los que se
+alojabab discos (N discos) que se podian trasladar de una varilla a otra libremente pero con una
+condicion: Cada disco era ligeramente inferior en diametro al que estaba justo debajo de el.
+
+    GRAFICO:
+                    |   |   |
+                    A   B   C
+
+Dentro de la varilla A que es la de inicio, podrian haber N discos, supongamos que dentro tenemos
+tres discos, tomando en cuenta la condicion quiere decir que los discos mas grandes van abajo y los
+discos mas pequeños en diametro van arriba:
+
+    GRAFICO:
+
+    La varilla A tiene 3 discos que los representamos como numeros
+
+                    |       |       |
+                    1       |       |    
+                    |       |       |
+                    2       |       |
+                    |       |       |
+                    3       |       |
+                    |       |       |
+                    A       B       C
+
+Para resolver este juego de Hanoi es que los N discos (En este caso 3) van en la varilla inicial A y debemos ser
+capaz de pasarlos de la varilla inicial a C, los discos deben de estar en el mismo orden por longit (Mas grande abajo
+y mas pequeños arriba) y la otra condicion es que solo podemos mover un solo disco a la vez y el unico disco que
+podemos mover es el que esta en la parte superior (Como una Pila)
+
+    Moviendo los discos de la varilla A hacia C
+
+        Supongamos que tomamos: 
+            - El disco "1" lo movemos a la varilla C
+            - El disco "2" lo movemos a la varilla B
+            - Queremos mover el disco "3" a C pero ya esta "1" y no podemos poner uno mas grande arriba de otro mas
+              pequeño, entonces el disco "1" lo pasamos a B que estaria arriba de "2" (Si se puede que menor este arriba de mayor)
+            - El disco "3" ya lo podemos pasar a C 
+            - El disco "1" que esta en B lo pasamos a la varilla "A"
+            - El disco "2" ya queda libre para pasarse a la varilla "C"
+            - El disco "1" lo pasamos a la varilla "C"
+    
+    Esto es sencillo porque son 3 discos pero si fueran muchos mas y ademas siempre van a ser 3 varillas, ademas el chiste
+    esta en tomar en cuenta N cantidad de discos para pasarlos entre varillas sin romper las reglas
+
+Para hacer este algoritmo se hace con recursividad tomando como base el algoritmo de divide y venceras:
+
+    Tomando como ejemplo el mismo problema anterior: 
+        Tenemos 3 discos en la varilla A y los tenemos que pasar a la varilla C (Este es nuestro problema de tamaño N) entonces hay
+        que dividir para poder resolverlo (Divide y venceras), entonces:
+            - Simulando ya lo que pasaria: En una serie de pasos, vamos a pasar los dos primeros discos (1 y 2) a la varilla B
+                y el disco 3 se queda en A. Esto seria el primero paso (Algoritmo recursivo porque esto se va a llamar un monton de veses)
+                Esto no se hace en un solo paso, pasar de tener todos los discos en A a como los tenemos ahora (Son varios pasos como lo vimos
+                hace un momento)
+
+                Esto es asi porque sin importar la cantidad de discos, siempre vamos a terminar con todos los discos apilados en esta forma
+                por eso es que se toma esto como base (Siempre se repetira por los mismo por lo que no importa cuantos discos haya siempre el algoritmo
+                repetira a lo mismo, eso es lo recursivo y aplicado a lo divide y venceras). Entonces estas partes siempre se repiten con N discos
+
+            - Ahora tenemos que pasar el disco 3 a la varilla C y como esta libre lo podemos hacer sin problemas
+            - Tenemos que pasar los dos discos de la varilla B a C y en una serie de pasos podemos llegar hasta ese punto
+                finalizando el problema
+        
+        Esto se puede hacer de forma recursiva y ademas aqui aplicamos el algoritmo de divide y venceras porque en el primer paso
+        pasamos los dos primeros discos a B (Dividimos el problemas para no tener que pasar directamente a C y luego a B como antes)
+        despues el mas grande se puede pasar a C y al ultimo los dos se pueden pasar a C (Anteriormente vimos todos los pasos, entonces 
+        teniamos este problema que solo al dividir en trozos pequeños lo resolvimos)
+
+Estos son los pasos que vamos a ver en codigo, tambien hay que tener en cuenta que esto debe funcionar para N discos, donde primero se pasan
+todos los discos menos el mas grande que se queda en A pero todos los demas discos se pasan a B y luego el mas grande se pasa a C y por ultimo
+los discos mas pequeños que se quedaron en B (En una serie de movimientos no es que se omitan ni se pasen directamente) pues en una serie de
+movimientos se pasan los discos que quedaron hacia C
+
+Codigo:
+        // Los valores char son los que van a tener las varillas y N es el numero de discos
+        void hanoi(char varInicial, char varCentral, char varFinal, int n){
+            // El caso Base: Es cuando hayamos movido N-1 discos y solo nos quede por mover un solo disco
+            // de la varilla inicial a la final
+            if(n == 1){
+                cout<<"Mover disco "<<n<<" desde la varilla "<<verInicial<<" a varilla "<<varFinal<<endl; 
+            }else{
+                // Caso Recursivo: Pasamos N-1 discos (Esta es la parte donde pasamos los discos a B y el mas grande los dejamos en A)
+                // Aqui le estamos diciendo que vamos a mover desde la varilla inicial a la varilla central, utilizando la varilla final
+                // como una varilla auxiliar (El bloque de discos no lo podemos mover directo sino que es disco por disco por eso se usa como auxiliar)
+                hanoi(varInicial, varFinal, varCentral, n-1);
+
+                // El siguiente paso es que el disco mas grande que se quedo en A se nesecita pasar a la varilla C
+                cout<<"Mover Disco "<<n<<" desde varilla "<<varInicial<<" a varilla "<<varFinal<<endl;
+
+                // Aun todos los demas discos nos quedan en la varilla B que nesecitamos moverlos N-1 porque cuando nos falte mover 1 seria
+                // el caso base, estos discos estan en la varilla B los movemos hacia C
+                // Como tenemos en la llamada de abajo: Vamos a mover desde la varilla central que es la B hacia la varilla final que es la C
+                // utilizando la varilla inicial A como auxiliar, asi al final cuando tengamos N-1 discos apilados correctamente en la varilla C 
+                // nos va a quedar un solo disco apilado pequeño en la varilla A que gracias al caso Base se moveria a la varilla C utilizando B 
+                // como auxiliar finalizando el problema
+                hanoi(varCentral, varInicial, varFinal, n-1)
+            }
+        }
+
